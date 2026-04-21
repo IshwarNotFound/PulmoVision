@@ -1,0 +1,452 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Self-hosted fonts (kept for fallback / results pages) ── */
+@font-face {
+  font-family: "Fragment Mono";
+  src: url("/fonts/FragmentMono-400.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/fonts/PlusJakartaSans-400.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/fonts/PlusJakartaSans-500.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/fonts/PlusJakartaSans-600.ttf") format("truetype");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Plus Jakarta Sans";
+  src: url("/fonts/PlusJakartaSans-700.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* ── Background: near-black with warm green undertone ── */
+  --color-base: #0A0E0C;
+  --color-surface-1: rgba(18, 32, 26, 0.58);
+  --color-surface-2: rgba(24, 40, 32, 0.42);
+  --color-surface-3: rgba(10, 18, 14, 0.72);
+
+  /* ── Accent: Clinical Emerald (Premium transition) ── */
+  --color-lightbox: #10B981;
+  --color-lightbox-glow: rgba(16, 185, 129, 0.45);
+  --color-lightbox-dim: rgba(16, 185, 129, 0.12);
+  --color-lightbox-trace: rgba(16, 185, 129, 0.04);
+
+  /* ── Semantic colors ── */
+  --color-normal: #10B981;
+  --color-attention: #FBBF24;
+  --color-critical: #EF4444;
+  --color-accent-deep: #0F3A30;
+
+  /* ── Text: warm bone → Titanium Silver → sage grey ── */
+  --color-text-primary: #F5F5F4;
+  --color-text-secondary: #C1D1C9;
+  --color-text-tertiary: #6B7A74;
+
+  /* ── Glass system ── */
+  --glass-bg: rgba(18, 32, 26, 0.58);
+  --glass-blur: blur(24px) saturate(160%) brightness(1.08);
+  --glass-border-top: 1px solid rgba(210, 220, 216, 0.10);
+  --glass-border-left: 1px solid rgba(210, 220, 216, 0.07);
+  --glass-border-right: 1px solid rgba(0, 0, 0, 0.35);
+  --glass-border-bottom: 1px solid rgba(0, 0, 0, 0.45);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(210, 220, 216, 0.08);
+
+  /* ── Spacing scale ── */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 48px;
+  --space-6: 80px;
+  --space-7: 128px;
+
+  /* ── Radii ── */
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+  background: #0A0E0C;
+}
+
+body {
+  color: var(--color-text-primary);
+  font-family: "Plus Jakarta Sans", sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  cursor: auto;
+}
+
+/* ── Loading shell ── */
+.loading-shell {
+  position: fixed;
+  inset: 0;
+  background: #0A0E0C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.4s ease;
+}
+
+.loading-arc {
+  width: 36px;
+  height: 36px;
+  border: 2px solid rgba(16, 185, 129, 0.15);
+  border-top-color: #10B981;
+  border-radius: 50%;
+  animation: spin 1.2s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ── Background breathing animation (Ultra-subtle) ── */
+@keyframes bgBreath {
+  0%, 100% {
+    background: radial-gradient(ellipse at 30% 40%, #081410 0%, #0A0E0C 70%);
+  }
+  50% {
+    background: radial-gradient(ellipse at 60% 60%, #0A1C16 0%, #0A0E0C 70%);
+  }
+}
+
+@keyframes dotGridPulse {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.pv-app-root {
+  position: relative;
+  min-height: 100vh;
+  isolation: isolate;
+}
+
+.pv-bg-fallback {
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  animation: bgBreath 8s ease-in-out infinite;
+}
+
+/* ── Subtle dot grid overlay ── */
+.pv-dot-grid {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  background-image: radial-gradient(circle, rgba(16, 185, 129, 0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+  animation: dotGridPulse 8s ease-in-out infinite;
+}
+
+.pv-vignette {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(circle at center, rgba(236, 253, 245, 0.04) 0%, rgba(10, 14, 12, 0.80) 70%);
+}
+
+/* ── Glass card ── */
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  border-top: var(--glass-border-top);
+  border-left: var(--glass-border-left);
+  border-right: var(--glass-border-right);
+  border-bottom: var(--glass-border-bottom);
+  box-shadow: var(--glass-shadow);
+  border-radius: var(--radius-lg);
+}
+
+/* ── Type utilities ── */
+.label {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+
+/* Headline: Space Grotesk (from next/font/google variable) with Plus Jakarta Sans fallback */
+.headline {
+  font-family: var(--font-space-grotesk), "Plus Jakarta Sans", sans-serif;
+  font-weight: 600;
+  font-size: clamp(40px, 5vw, 72px);
+  color: var(--color-text-primary);
+  line-height: 1.05;
+}
+
+/* Body — clean sans, replaces italic serif everywhere */
+.body-sans {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+/* Legacy alias kept for backward compat */
+.body-serif {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+.reading {
+  font-family: "Fragment Mono", monospace;
+  font-size: 13px;
+  color: var(--color-lightbox);
+  letter-spacing: 0.02em;
+}
+
+/* ── Buttons ── */
+.primary-button {
+  border-radius: var(--radius-md);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-left: 1px solid rgba(255, 255, 255, 0.08);
+  border-right: 1px solid rgba(0, 0, 0, 0.4);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+  background: linear-gradient(145deg, #10B981, #059669);
+  color: #0A0E0C;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  box-shadow: 
+    0 8px 24px rgba(0, 0, 0, 0.4),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  transform: translateZ(0);
+  transition:
+    transform 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.24s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.24s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+
+.primary-button:hover:not(:disabled) {
+  transform: scale(1.012);
+  filter: brightness(1.14) saturate(1.03);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(16, 185, 129, 0.18), inset 0 1px 0 rgba(210, 220, 216, 0.10);
+}
+
+.primary-button:active:not(:disabled) {
+  transform: scale(0.994);
+}
+
+.primary-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.ghost-button {
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(210, 220, 216, 0.22);
+  background: rgba(10, 18, 14, 0.55);
+  color: var(--color-text-secondary);
+  transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  will-change: transform;
+}
+
+.ghost-button:hover {
+  transform: scale(1.008);
+  border-color: rgba(16, 185, 129, 0.35);
+  color: var(--color-lightbox);
+}
+
+/* ── Range controls ── */
+.pv-range {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 20px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.pv-range:focus-visible {
+  outline: none;
+}
+
+.pv-range::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  border: 1px solid rgba(210, 220, 216, 0.16);
+  background: linear-gradient(90deg, rgba(16, 185, 129, 0.34), rgba(251, 191, 36, 0.42));
+}
+
+.pv-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  margin-top: -6px;
+  border-radius: 999px;
+  border: 1px solid rgba(16, 185, 129, 0.55);
+  background: #ECFDF5;
+  box-shadow: 0 0 0 2px rgba(10, 18, 14, 0.94), 0 0 10px rgba(16, 185, 129, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pv-range:hover::-webkit-slider-thumb {
+  transform: scale(1.08);
+}
+
+.pv-range:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 2px rgba(10, 18, 14, 0.94), 0 0 0 5px rgba(16, 185, 129, 0.24), 0 0 14px rgba(16, 185, 129, 0.4);
+}
+
+.pv-range::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  border: 1px solid rgba(210, 220, 216, 0.16);
+  background: linear-gradient(90deg, rgba(16, 185, 129, 0.34), rgba(251, 191, 36, 0.42));
+}
+
+.pv-range::-moz-range-progress {
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(16, 185, 129, 0.6), rgba(251, 191, 36, 0.6));
+}
+
+.pv-range::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(16, 185, 129, 0.55);
+  background: #ECFDF5;
+  box-shadow: 0 0 0 2px rgba(10, 18, 14, 0.94), 0 0 10px rgba(16, 185, 129, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pv-range:hover::-moz-range-thumb {
+  transform: scale(1.08);
+}
+
+.pv-range:focus-visible::-moz-range-thumb {
+  box-shadow: 0 0 0 2px rgba(10, 18, 14, 0.94), 0 0 0 5px rgba(16, 185, 129, 0.24), 0 0 14px rgba(16, 185, 129, 0.4);
+}
+
+/* ── Badge ── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(210, 220, 216, 0.22);
+  background: rgba(18, 32, 26, 0.50);
+  padding: 6px 10px;
+  font-family: "Fragment Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+}
+
+.badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+
+/* ── Scroll reveal utility ── */
+.reveal-hidden {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Results heatmap ── */
+.results-heatmap {
+  mix-blend-mode: screen;
+}
+
+/* ── Subtle entrance utility ── */
+@keyframes ui-enter-keyframe {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.995);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.ui-enter {
+  animation: ui-enter-keyframe 560ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.ui-enter-delay-1 {
+  animation-delay: 110ms;
+}
+
+.ui-enter-delay-2 {
+  animation-delay: 180ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pv-bg-fallback,
+  .pv-dot-grid,
+  .loading-arc,
+  .ui-enter {
+    animation: none !important;
+  }
+
+  .primary-button,
+  .ghost-button,
+  .pv-range::-webkit-slider-thumb,
+  .pv-range::-moz-range-thumb {
+    transition: none !important;
+  }
+
+  .primary-button:hover:not(:disabled),
+  .ghost-button:hover {
+    transform: none;
+  }
+}

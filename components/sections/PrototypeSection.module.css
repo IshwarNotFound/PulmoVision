@@ -1,0 +1,461 @@
+/* ── Section wrapper ── */
+.section {
+  padding: clamp(6rem, 12vh, 12rem) clamp(2rem, 6vw, 6rem);
+  border-top: 1px solid rgba(210, 220, 216, 0.06);
+}
+
+.header {
+  max-width: 640px;
+  margin-bottom: 3rem;
+}
+
+.sectionLabel {
+  margin-bottom: 0.75rem;
+}
+
+.headline {
+  font-family: var(--font-space-grotesk), "Plus Jakarta Sans", sans-serif;
+  font-weight: 700;
+  font-size: clamp(32px, 4vw, 52px);
+  line-height: 1.06;
+  letter-spacing: -0.02em;
+  color: var(--color-text-primary);
+  margin-bottom: 1rem;
+}
+
+.subtext {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--color-text-secondary);
+  max-width: 52ch;
+}
+
+/* ── Demo panel container ── */
+.demoPanel {
+  background: rgba(12, 22, 18, 0.75);
+  border: 1px solid rgba(210, 220, 216, 0.08);
+  border-radius: 20px;
+  overflow: hidden;
+  max-width: 1200px;
+}
+
+/* ── Tab bar ── */
+.tabBar {
+  display: flex;
+  border-bottom: 1px solid rgba(210, 220, 216, 0.08);
+  padding: 0 1.5rem;
+  gap: 0;
+}
+
+.tab {
+  font-family: "Fragment Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  padding: 0.875rem 1.125rem;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+  margin-bottom: -1px;
+  white-space: nowrap;
+}
+
+.tab:hover {
+  color: var(--color-text-secondary);
+}
+
+.tabActive {
+  color: var(--color-lightbox) !important;
+  border-bottom-color: var(--color-lightbox) !important;
+}
+
+/* ── Viewer + Analysis row ── */
+.viewerRow {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  min-height: 480px;
+}
+
+/* ── X-ray viewer ── */
+.viewer {
+  position: relative;
+  background: #050807;
+  border-right: 1px solid rgba(210, 220, 216, 0.06);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.xrayImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  filter: brightness(0.88) contrast(1.12);
+  transition: filter 0.4s ease;
+}
+
+.xrayDimmed {
+  filter: brightness(0.70) contrast(1.12);
+}
+
+/* ── Corner brackets ── */
+.corner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.cornerTL { top: 14px; left: 14px; border-top: 1px solid var(--color-lightbox); border-left: 1px solid var(--color-lightbox); }
+.cornerTR { top: 14px; right: 14px; border-top: 1px solid var(--color-lightbox); border-right: 1px solid var(--color-lightbox); }
+.cornerBL { bottom: 42px; left: 14px; border-bottom: 1px solid var(--color-lightbox); border-left: 1px solid var(--color-lightbox); }
+.cornerBR { bottom: 42px; right: 14px; border-bottom: 1px solid var(--color-lightbox); border-right: 1px solid var(--color-lightbox); }
+
+/* ── Heatmap overlay ── */
+.heatmapOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+/* ── Heat zones ── */
+.heatZone {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(28px);
+  mix-blend-mode: screen;
+  transition: opacity 0.3s ease;
+}
+
+/* Cardiomegaly — cardiac silhouette center */
+.heatZone1 {
+  width: 40%;
+  height: 34%;
+  left: 30%;
+  top: 40%;
+  background: radial-gradient(ellipse, rgba(251, 113, 133, 0.80) 0%, rgba(253, 230, 138, 0.55) 45%, transparent 70%);
+}
+
+/* Atelectasis — lower-right lobe */
+.heatZone2 {
+  width: 22%;
+  height: 18%;
+  right: 14%;
+  bottom: 22%;
+  background: radial-gradient(ellipse, rgba(253, 230, 138, 0.70) 0%, rgba(52, 211, 153, 0.35) 55%, transparent 75%);
+}
+
+/* ── AI Insight boxes ── */
+.insightBox {
+  position: absolute;
+  border: 1px solid var(--color-lightbox);
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.25);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.insightBoxVisible {
+  opacity: 1;
+}
+
+.insightBox1 {
+  left: 28%;
+  top: 37%;
+  width: 44%;
+  height: 38%;
+}
+
+.insightBox2 {
+  right: 12%;
+  bottom: 19%;
+  width: 26%;
+  height: 21%;
+}
+
+.insightLabel {
+  position: absolute;
+  top: -22px;
+  left: 0;
+  font-family: "Fragment Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-lightbox);
+  background: rgba(10, 14, 12, 0.92);
+  padding: 2px 6px;
+  white-space: nowrap;
+}
+
+/* ── Prototype scan line (local to viewer) ── */
+.prototypeScanLine {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(16, 185, 129, 0.9), transparent);
+  box-shadow: 0 0 18px rgba(16, 185, 129, 0.75), 0 0 36px rgba(16, 185, 129, 0.35);
+  z-index: 10;
+  pointer-events: none;
+  top: 0;
+}
+
+/* ── Viewer status bar ── */
+.viewerStatus {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 7px 16px;
+  background: rgba(6, 12, 10, 0.80);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(210, 220, 216, 0.06);
+  z-index: 2;
+}
+
+.statusText {
+  font-family: "Fragment Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  color: var(--color-text-tertiary);
+}
+
+.confidenceDisplay {
+  font-family: "Fragment Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  color: var(--color-lightbox);
+}
+
+/* ── Analysis panel (right) ── */
+.analysisPanel {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  background: rgba(10, 18, 14, 0.90) !important;
+  border-radius: 0 !important;
+  border: none !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+  border-top: none !important;
+  border-left: 1px solid rgba(210, 220, 216, 0.07) !important;
+  border-right: none !important;
+  border-bottom: none !important;
+}
+
+.panelLabel {
+  color: var(--color-text-tertiary);
+}
+
+/* ── Idle state ── */
+.idleState {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+.idleText {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--color-text-tertiary);
+  text-align: center;
+}
+
+/* ── Confidence meter ── */
+.confidenceMeter {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.confidenceRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.confidenceLabel {
+  font-family: "Fragment Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+
+.confidenceValue {
+  font-family: "Fragment Mono", monospace;
+  font-size: 24px;
+  color: var(--color-lightbox);
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.meterRail {
+  width: 100%;
+  height: 3px;
+  background: rgba(16, 185, 129, 0.10);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.meterFill {
+  height: 100%;
+  background: linear-gradient(90deg, rgba(16, 185, 129, 0.45), var(--color-lightbox));
+  border-radius: 999px;
+  transition: width 0.08s linear;
+}
+
+/* ── Findings ── */
+.findings {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.findingsLabel {
+  color: var(--color-text-tertiary);
+  margin-bottom: 0.25rem;
+}
+
+.finding {
+  padding: 0.7rem 0.875rem;
+  border: 1px solid rgba(210, 220, 216, 0.07);
+  border-radius: 10px;
+  background: rgba(18, 32, 26, 0.40);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.findingVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.finding.findingVisible:nth-child(2) { transition-delay: 0.12s; }
+.finding.findingVisible:nth-child(3) { transition-delay: 0.26s; }
+
+.findingHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.2rem;
+}
+
+.findingDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.findingLabel {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  flex: 1;
+}
+
+.findingConf {
+  font-family: "Fragment Mono", monospace;
+  font-size: 10px;
+  color: var(--color-text-secondary);
+}
+
+.findingRegion {
+  font-family: "Fragment Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--color-text-tertiary);
+  padding-left: 1.1rem;
+}
+
+/* ── Grad-CAM status ── */
+.gradcamStatus {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(210, 220, 216, 0.06);
+  margin-top: auto;
+}
+
+.gradcamDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--color-normal);
+  box-shadow: 0 0 8px rgba(52, 211, 153, 0.7);
+  flex-shrink: 0;
+}
+
+.gradcamText {
+  font-family: "Fragment Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-normal);
+}
+
+/* ── Launch button ── */
+.launchBtn {
+  width: 100%;
+  padding: 0.75rem 1rem !important;
+  font-family: "Fragment Mono", monospace !important;
+  font-size: 10px !important;
+  letter-spacing: 0.16em !important;
+  text-transform: uppercase !important;
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .viewerRow {
+    grid-template-columns: 1fr;
+  }
+
+  .analysisPanel {
+    border-left: none !important;
+    border-top: 1px solid rgba(210, 220, 216, 0.07) !important;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .confidenceMeter,
+  .findings {
+    flex: 1 1 240px;
+  }
+
+  .viewer {
+    min-height: 340px;
+    border-right: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .tabBar {
+    overflow-x: auto;
+    padding: 0 1rem;
+  }
+
+  .section {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+}

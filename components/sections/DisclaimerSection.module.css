@@ -1,0 +1,234 @@
+/* ── Shell ── */
+.shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 4vw 40px;
+  position: relative;
+  overflow: hidden;
+  background: var(--color-base, #0A0E0C);
+}
+
+/* Ambient background glow */
+.shell::before {
+  content: "";
+  position: absolute;
+  top: 40%;
+  left: 20%;
+  transform: translate(-50%, -50%);
+  width: 900px;
+  height: 900px;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* ── Content Wrapper ── */
+.contentWrapper {
+  width: min(1200px, 100%);
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 8vw;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+}
+
+/* ── Header Column ── */
+.headerCol {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  background: rgba(251, 191, 36, 0.05);
+  border: 1px solid rgba(251, 191, 36, 0.25);
+  border-radius: 999px;
+  width: fit-content;
+  box-shadow: 0 0 20px rgba(251, 191, 36, 0.05);
+}
+
+.badgePulse {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-attention);
+  box-shadow: 0 0 8px rgba(251, 191, 36, 0.8);
+  animation: badge-pulse 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes badge-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.badgeText {
+  font-family: "Fragment Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-attention);
+}
+
+.headline {
+  font-family: var(--font-space-grotesk), "Plus Jakarta Sans", sans-serif;
+  font-weight: 700;
+  font-size: clamp(64px, 8vw, 100px);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: var(--color-text-primary);
+  margin: 0;
+  text-shadow: 0 4px 32px rgba(0, 0, 0, 0.8);
+}
+
+.headlineSub {
+  display: block;
+  font-weight: 400;
+  font-size: clamp(24px, 3vw, 38px);
+  color: var(--color-text-secondary);
+  letter-spacing: -0.01em;
+  margin-top: 12px;
+  opacity: 0.8;
+}
+
+.headerAccentLine {
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(90deg, #10B981, transparent);
+  margin-top: 24px;
+}
+
+/* ── Right Column / Enhanced List ── */
+.listCol {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  background: rgba(18, 32, 26, 0.3);
+  border: 1px solid rgba(16, 185, 129, 0.1);
+  border-radius: 24px;
+  padding: 48px;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.log {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.logEntry {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.logNumBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding-top: 2px;
+}
+
+.logNumText {
+  font-family: "Fragment Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: #10B981;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 6px 8px;
+  border-radius: 6px;
+}
+
+.logNumLine {
+  width: 1px;
+  height: 24px;
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.5), transparent);
+}
+
+.logTextContainer {
+  padding-top: 6px;
+}
+
+.logText {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 18px;
+  line-height: 1.7;
+  color: rgba(220, 240, 230, 0.9);
+  margin: 0;
+  letter-spacing: 0.01em;
+}
+
+/* ── Footer ── */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(16, 185, 129, 0.15);
+}
+
+.footerNoteBox {
+  text-align: right;
+}
+
+.footerNote {
+  font-family: "Fragment Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--color-text-tertiary);
+  margin: 0;
+  line-height: 1.6;
+  text-transform: uppercase;
+}
+
+/* ── Responsiveness ── */
+@media (max-width: 1024px) {
+  .contentWrapper {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .headline {
+    text-align: center;
+  }
+  
+  .headerAccentLine {
+    margin: 0 auto;
+  }
+  
+  .headerCol {
+    align-items: center;
+  }
+  
+  .listCol {
+    padding: 32px 24px;
+  }
+  
+  .shell::before {
+    top: 20%;
+    left: 50%;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  
+  .footerNoteBox {
+    text-align: center;
+  }
+}

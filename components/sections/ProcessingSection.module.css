@@ -1,0 +1,284 @@
+/* Full-viewport shell — no cards, lung fills everything */
+.shell {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: var(--color-bg, #0a0e0c);
+}
+
+/* 3D lung fills the whole viewport */
+.lungStage {
+  position: absolute;
+  inset: 0;
+}
+
+/* ─── Top-right HUD — sits below the navbar badges ─── */
+.hud {
+  position: absolute;
+  top: 120px;
+  right: clamp(16px, 4vw, 48px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 16px;
+  pointer-events: none;
+}
+
+.stepper {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.stepItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.45;
+}
+
+.stepActive {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 1;
+}
+
+.stepDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.stepDotActive {
+  width: 14px;
+  height: 14px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, rgba(16, 185, 129, 0.95), rgba(6, 182, 212, 0.85));
+  box-shadow: 0 0 12px rgba(6, 182, 212, 0.4);
+}
+
+.stepLabel {
+  font-family: "Fragment Mono", monospace;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.eta {
+  font-family: "Fragment Mono", monospace;
+  font-size: 14px;
+  color: rgba(201, 241, 228, 0.65);
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+}
+
+/* ─── Bottom-right — reliability + buttons ─── */
+.bottomHud {
+  position: absolute;
+  bottom: clamp(24px, 4vh, 48px);
+  right: clamp(16px, 3vw, 40px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 16px;
+}
+
+.reliability {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.reliabilityLabel {
+  font-size: 10px;
+  color: var(--color-text-secondary);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.reliabilityValue {
+  font-size: 13px;
+  color: rgba(230, 255, 246, 0.9);
+  margin-top: 3px;
+}
+
+.bottomActions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* ─── Bottom-center tip strip ─── */
+.tipStrip {
+  position: absolute;
+  bottom: clamp(32px, 6vh, 72px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(680px, 78vw);
+  text-align: center;
+  pointer-events: none;
+}
+
+.tipText {
+  margin: 0;
+  font-size: clamp(15px, 1.25vw, 19px);
+  font-weight: 500;
+  color: rgba(220, 252, 240, 0.88);
+  letter-spacing: 0.02em;
+  line-height: 1.6;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.7);
+}
+
+/* ─── Error overlay (Terminal style) ─── */
+.errorOverlay {
+  position: absolute;
+  bottom: clamp(80px, 12vh, 120px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(480px, 90vw);
+  border-radius: 8px;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  background: rgba(15, 10, 10, 0.95);
+  backdrop-filter: blur(16px);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 0 40px rgba(239, 68, 68, 0.15), inset 0 0 20px rgba(239, 68, 68, 0.05);
+  overflow: hidden;
+}
+
+.errorOverlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.errorHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(239, 68, 68, 0.2);
+  padding-bottom: 12px;
+}
+
+.errorIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.6);
+  color: #ef4444;
+  font-family: "Fragment Mono", monospace;
+  font-weight: bold;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+.errorTitle {
+  font-family: "Fragment Mono", monospace;
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  color: #ef4444;
+}
+
+.errorMsg {
+  margin: 0;
+  font-family: "Fragment Mono", monospace;
+  font-size: 12px;
+  color: rgba(239, 68, 68, 0.85);
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+}
+
+.actionRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+/* ─── Cinematic Exit Transition ─── */
+.exiting {
+  opacity: 0;
+  transform: scale(1.02);
+  filter: blur(8px) brightness(0.5);
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+              filter 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+/* ─── No-session fallback ─── */
+.noSession {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 24px;
+  text-align: center;
+}
+
+.noSessionLabel {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.noSessionBody {
+  font-size: 18px;
+  color: rgba(230, 255, 246, 0.85);
+  max-width: 420px;
+  margin: 0;
+}
+
+.redirecting {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+/* ─── Minimal phase label (top-left) ─── */
+.phaseLabel {
+  position: absolute;
+  top: 28px;
+  left: clamp(16px, 3vw, 40px);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(201, 241, 228, 0.55);
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .bottomHud {
+    right: 16px;
+    bottom: 100px;
+  }
+
+  .tipStrip {
+    bottom: 20px;
+    width: 90vw;
+  }
+}

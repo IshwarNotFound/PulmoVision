@@ -1,0 +1,598 @@
+/* ── Base layout (mobile-first) ── */
+.screen {
+  min-height: 100vh;
+  padding: 80px clamp(1rem, 4vw, 3.5rem) 1.5rem;
+  display: grid;
+  gap: 14px;
+}
+
+.mainGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(320px, 0.45fr);
+  gap: clamp(24px, 3vw, 40px);
+  align-items: start;
+}
+
+.visualCard {
+  padding: clamp(14px, 1.5vw, 20px);
+  display: grid;
+  gap: clamp(14px, 1.5vw, 20px);
+  overflow: hidden;
+  position: relative;
+  grid-template-columns: 1fr;
+}
+
+.visualReveal {
+  transition: opacity 0.25s linear, filter 0.25s linear, transform 0.25s linear;
+  grid-column: 1;
+}
+
+.pulseSweep {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  top: 16px;
+  bottom: 16px;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.pulseSweep::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 28%;
+  background: linear-gradient(90deg, rgba(110, 231, 183, 0), rgba(110, 231, 183, 0.16), rgba(110, 231, 183, 0));
+  filter: blur(8px);
+  animation: pulse-sweep 2.9s linear 1;
+}
+
+.controlsSlot {
+  margin-top: 0;
+  grid-column: 1;
+}
+
+.legendSlot {
+  margin-top: 0;
+  grid-column: 1;
+}
+
+/* ── Side card — flex column, footer always at bottom ── */
+.sideCard {
+  padding: clamp(24px, 2.5vw, 40px);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  /* Bind to viewport height so the footer button is always visible */
+  max-height: calc(100vh - 120px);
+  height: calc(100vh - 120px);
+  position: sticky;
+  top: 80px;
+}
+
+/* Scrollable content area */
+.sideScroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-bottom: 6px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(16, 185, 129, 0.12) transparent;
+}
+
+.sideScroll::-webkit-scrollbar {
+  width: 3px;
+}
+
+.sideScroll::-webkit-scrollbar-thumb {
+  background: rgba(16, 185, 129, 0.18);
+  border-radius: 999px;
+}
+
+/* Pinned action footer */
+.actionsFooter {
+  flex-shrink: 0;
+  padding-top: 14px;
+  margin-top: 12px;
+  border-top: 1px solid rgba(16, 185, 129, 0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: opacity 0.25s linear;
+}
+
+/* ── Clinical content ── */
+.sectionLabel {
+  font-family: "Fragment Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+
+.className {
+  font-family: var(--font-space-grotesk), "Plus Jakarta Sans", sans-serif;
+  font-size: clamp(32px, 3.5vw, 54px);
+  font-weight: 700;
+  line-height: 1.05;
+  color: var(--color-text-primary);
+  letter-spacing: -0.02em;
+}
+
+/* Large confidence number */
+.confidenceHero {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 8px;
+  padding-bottom: 4px;
+}
+
+.confidenceNumber {
+  font-family: "Fragment Mono", monospace;
+  font-size: clamp(56px, 5.5vw, 84px);
+  color: var(--color-lightbox);
+  letter-spacing: -0.05em;
+  line-height: 1;
+  text-shadow: 0 0 24px rgba(16, 185, 129, 0.25);
+}
+
+.confidenceUnit {
+  font-family: "Fragment Mono", monospace;
+  font-size: clamp(26px, 3vw, 42px);
+  color: var(--color-lightbox);
+  opacity: 0.8;
+  line-height: 1;
+}
+
+.confidenceLabel {
+  font-family: "Fragment Mono", monospace;
+  font-size: clamp(10px, 1.2vw, 12px);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+  align-self: center;
+}
+
+/* Status badge — SCAN COMPLETE */
+.statusBadge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: rgba(52, 211, 153, 0.1);
+  border: 1px solid rgba(52, 211, 153, 0.28);
+  border-radius: 999px;
+  width: fit-content;
+}
+
+.statusDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-normal);
+  box-shadow: 0 0 6px rgba(52, 211, 153, 0.6);
+  animation: status-pulse 2.2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes status-pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 6px rgba(52, 211, 153, 0.6); }
+  50% { opacity: 0.5; box-shadow: 0 0 12px rgba(52, 211, 153, 0.3); }
+}
+
+.statusText {
+  font-family: "Fragment Mono", monospace;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-normal);
+}
+
+.description {
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: clamp(13px, 1.5vw, 15px);
+  color: var(--color-text-secondary);
+  line-height: 1.8;
+}
+
+.metrics {
+  display: grid;
+  gap: 10px;
+}
+
+.noticeBox {
+  display: grid;
+  gap: 6px;
+  border: 1px solid rgba(251, 191, 36, 0.45);
+  background: rgba(251, 191, 36, 0.1);
+  border-radius: 12px;
+  padding: 10px;
+}
+
+.noticeList {
+  display: grid;
+  gap: 6px;
+}
+
+.noticeLine {
+  font-family: "Fragment Mono", monospace;
+  font-size: 11px;
+  color: var(--color-attention);
+  line-height: 1.5;
+}
+
+.metricRow {
+  display: grid;
+  gap: 5px;
+}
+
+.metricHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
+}
+
+.metricLabel,
+.metricValue {
+  font-family: "Fragment Mono", monospace;
+  font-size: 11px;
+  color: var(--color-text-secondary);
+}
+
+.metricRail {
+  width: 100%;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(236, 253, 245, 0.13);
+  overflow: hidden;
+}
+
+.metricFill {
+  height: 100%;
+  transform-origin: left center;
+  background: linear-gradient(90deg, #10B981, #FBBF24);
+}
+
+.scope {
+  font-family: "Fragment Mono", monospace;
+  font-size: 10px;
+  color: var(--color-text-tertiary);
+  line-height: 1.7;
+  transition: opacity 0.25s linear;
+}
+
+.metaGrid {
+  display: grid;
+  gap: 8px;
+  padding: clamp(12px, 1.5vw, 16px) clamp(14px, 2vw, 18px);
+  background: rgba(16, 185, 129, 0.03);
+  border: 1px solid rgba(16, 185, 129, 0.06);
+  border-radius: 12px;
+}
+
+.metaRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-family: "Fragment Mono", monospace;
+  font-size: clamp(9.5px, 1vw, 11px);
+  color: var(--color-text-tertiary);
+  word-break: break-word;
+}
+.metaRow span:last-child {
+  text-align: right;
+  max-width: 55%;
+}
+
+.telemetryPanel {
+  display: grid;
+  gap: 12px;
+  padding: clamp(14px, 1.5vw, 20px) clamp(16px, 2vw, 24px);
+  border-radius: 14px;
+  border: 1px solid rgba(16, 185, 129, 0.16);
+  background: linear-gradient(145deg, rgba(16, 185, 129, 0.06), rgba(16, 185, 129, 0.02));
+}
+
+.telemetryTitle {
+  font-family: "Fragment Mono", monospace;
+  font-size: clamp(10px, 1.2vw, 11px);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+
+.telemetryGrid {
+  display: grid;
+  gap: 8px;
+}
+
+.telemetryBadge {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(10, 22, 18, 0.42);
+  border: 1px solid rgba(16, 185, 129, 0.16);
+  font-family: "Fragment Mono", monospace;
+  font-size: clamp(9px, 1vw, 11px);
+  color: var(--color-text-secondary);
+}
+
+.telemetryBadge strong {
+  font-weight: 600;
+  color: var(--color-lightbox);
+  text-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+  white-space: nowrap;
+}
+
+.ensemblePanel {
+  display: grid;
+  gap: 14px;
+  padding: clamp(14px, 1.5vw, 20px) clamp(16px, 2vw, 24px);
+  border-radius: 14px;
+  border: 1px solid rgba(16, 185, 129, 0.16);
+  background: linear-gradient(145deg, rgba(16, 185, 129, 0.05), rgba(16, 185, 129, 0.01));
+}
+
+.ensembleHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-family: "Fragment Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-tertiary);
+}
+
+.voteSummary {
+  display: grid;
+  gap: 8px;
+}
+
+.voteRow {
+  display: grid;
+  gap: 4px;
+}
+
+.voteHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-family: "Fragment Mono", monospace;
+  font-size: 10px;
+  color: var(--color-text-secondary);
+}
+
+.voteRail {
+  width: 100%;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(236, 253, 245, 0.13);
+  overflow: hidden;
+}
+
+.voteFill {
+  height: 100%;
+  transform-origin: left center;
+  background: linear-gradient(90deg, rgba(16, 185, 129, 0.7), rgba(16, 185, 129, 0.2));
+}
+
+.modelVoteGrid {
+  display: grid;
+  gap: 8px;
+}
+
+.modelVoteCard {
+  display: grid;
+  gap: 4px;
+  padding: 8px 10px;
+  border: 1px solid rgba(16, 185, 129, 0.14);
+  border-radius: 8px;
+  background: rgba(10, 22, 18, 0.38);
+}
+
+.modelVoteHeader,
+.modelVoteMeta {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-family: "Fragment Mono", monospace;
+  font-size: 10px;
+}
+
+.modelVoteHeader {
+  color: var(--color-text-secondary);
+}
+
+.modelVoteMeta {
+  color: var(--color-text-tertiary);
+}
+
+.modelVoteWarn {
+  font-family: "Fragment Mono", monospace;
+  font-size: 10px;
+  color: var(--color-attention);
+}
+
+.failedModelBox {
+  display: grid;
+  gap: 4px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(251, 191, 36, 0.4);
+  background: rgba(251, 191, 36, 0.08);
+}
+
+.failedModelTitle {
+  font-family: "Fragment Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-attention);
+}
+
+.failedModelLine {
+  font-family: "Fragment Mono", monospace;
+  font-size: 10px;
+  line-height: 1.5;
+  color: var(--color-attention);
+}
+
+/* Actions */
+.actionsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Report done — small success badge */
+.reportDone {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Fragment Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-normal);
+  padding: 6px 12px;
+  background: rgba(52, 211, 153, 0.1);
+  border: 1px solid rgba(52, 211, 153, 0.25);
+  border-radius: 999px;
+  width: fit-content;
+}
+
+.reportDone::before {
+  content: "✓";
+  font-size: 10px;
+}
+
+.reportError {
+  font-family: "Fragment Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-attention);
+  padding: 6px 12px;
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.35);
+  border-radius: 999px;
+  width: fit-content;
+}
+
+/* ── Animation ── */
+@keyframes pulse-sweep {
+  0% { transform: translateX(-120%); opacity: 0; }
+  18% { opacity: 1; }
+  100% { transform: translateX(230%); opacity: 0; }
+}
+
+/* ── Error states ── */
+.ambiguous {
+  min-height: 70vh;
+  display: grid;
+  place-items: center;
+}
+
+.ambiguousInner {
+  width: min(680px, 100%);
+  padding: 26px;
+  display: grid;
+  gap: 14px;
+}
+
+/* ── Desktop: tall image, controls scroll below ── */
+@media (min-width: 1100px) {
+  .screen {
+    padding-bottom: 48px;
+  }
+
+  .visualCard {
+    grid-template-columns: 1fr 280px;
+    /* row 1: full viewer height for controls, row 2: auto for legend */
+    grid-template-rows: 1fr auto;
+  }
+
+  .visualReveal {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    height: clamp(550px, 72vh, 860px);
+  }
+
+  .controlsSlot {
+    grid-column: 2;
+    grid-row: 1;
+    /* Fill the full viewer height so justify-content:center actually works */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+  }
+
+  .legendSlot {
+    grid-column: 2;
+    grid-row: 2;
+  }
+}
+
+/* ── Large screens ── */
+@media (min-width: 1440px) {
+  .screen {
+    max-width: 2000px;
+    margin: 0 auto;
+    padding-left: clamp(2rem, 5vw, 6rem);
+    padding-right: clamp(2rem, 5vw, 6rem);
+  }
+
+  .mainGrid {
+    grid-template-columns: minmax(0, 1.75fr) minmax(360px, 0.25fr);
+    gap: 32px;
+  }
+
+  .visualCard {
+    grid-template-columns: 1fr 340px;
+  }
+
+  .visualReveal {
+    height: clamp(600px, 78vh, 960px);
+  }
+}
+
+@media (min-width: 1920px) {
+  .screen {
+    max-width: none;
+    padding-left: clamp(4rem, 6vw, 10rem);
+    padding-right: clamp(4rem, 6vw, 10rem);
+  }
+
+  .mainGrid {
+    grid-template-columns: minmax(0, 1.8fr) minmax(420px, 0.2fr);
+    gap: 48px;
+  }
+
+  .visualCard {
+    grid-template-columns: 1fr 380px;
+  }
+
+  .visualReveal {
+    height: clamp(650px, 82vh, 1080px);
+  }
+}
+
+/* ── Mobile: single column, normal scroll ── */
+@media (max-width: 1099px) {
+  .mainGrid {
+    grid-template-columns: 1fr;
+  }
+}

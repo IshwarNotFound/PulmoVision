@@ -1,0 +1,239 @@
+.viewRoot {
+  position: relative;
+  width: 100%;
+  min-height: 580px;
+  border-radius: 18px;
+  overflow: hidden;
+  border-top: 1px solid rgba(167, 243, 208, 0.08);
+  border-left: 1px solid rgba(167, 243, 208, 0.06);
+  border-right: 1px solid rgba(0, 0, 0, 0.3);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  background: rgba(8, 16, 13, 0.55);
+}
+
+.zoomLayer {
+  position: absolute;
+  inset: 0;
+  transform-origin: center;
+  transition: transform 0.2s ease;
+}
+
+.mediaFrame {
+  position: absolute;
+  overflow: hidden;
+}
+
+.image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+.missingImageNotice {
+  position: absolute;
+  inset: 12px;
+  display: grid;
+  place-items: center;
+  border: 1px dashed rgba(167, 243, 208, 0.28);
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  font-family: "Fragment Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(236, 253, 245, 0.62);
+  background: rgba(8, 16, 13, 0.38);
+}
+
+.heatmapCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  filter: blur(10px);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.overlaySurface {
+  position: absolute;
+  inset: 0;
+  cursor: crosshair;
+}
+
+.threeContainer {
+  position: absolute;
+  inset: 0;
+}
+
+.rotateHint {
+  position: absolute;
+  left: 14px;
+  bottom: 14px;
+  font-family: "Fragment Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: rgba(236, 253, 245, 0.52);
+  text-transform: uppercase;
+}
+
+.fallbackBanner {
+  position: absolute;
+  left: 50%;
+  top: 16px;
+  transform: translateX(-50%);
+  z-index: 15;
+  font-family: "Fragment Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(236, 253, 245, 0.92);
+  background: rgba(15, 23, 20, 0.82);
+  border: 1px solid rgba(167, 243, 208, 0.28);
+  border-radius: 8px;
+  padding: 8px 10px;
+  text-align: center;
+  max-width: calc(100% - 24px);
+}
+
+.splitGrid {
+  width: 100%;
+  display: grid;
+  gap: clamp(16px, 2.5vw, 40px);
+}
+
+.splitPanel {
+  min-height: 600px;
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.splitPanel:hover {
+  transform: translateY(-1px);
+}
+
+@media (min-width: 1100px) {
+  .viewRoot {
+    min-height: 0;
+    height: 100%;
+  }
+
+  .splitGrid {
+    height: 100%;
+  }
+
+  .splitPanel {
+    min-height: 0;
+    height: 100%;
+  }
+}
+
+@media (max-width: 980px) {
+
+  .viewRoot,
+  .splitPanel {
+    min-height: 420px;
+  }
+}
+
+.sliceControls {
+  position: absolute;
+  right: clamp(16px, 3vw, 40px);
+  bottom: clamp(16px, 3vh, 40px);
+  top: auto;
+  transform: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  z-index: 10;
+  pointer-events: auto;
+}
+
+.sliceToggle {
+  font-family: "Fragment Mono", monospace;
+  font-size: clamp(11px, 1.25vw, 14px);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(45, 212, 191, 0.95);
+  background: rgba(8, 16, 13, 0.85);
+  border: 1px solid rgba(45, 212, 191, 0.4);
+  border-radius: 10px;
+  padding: clamp(12px, 1.5vh, 16px) clamp(16px, 2vw, 24px);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.25s ease, border-color 0.25s ease, transform 0.2s ease;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 0 12px rgba(45, 212, 191, 0.05);
+  backdrop-filter: blur(12px);
+}
+
+.sliceToggle:hover,
+.sliceToggle[aria-pressed="true"] {
+  background: rgba(45, 212, 191, 0.15);
+  border-color: rgba(45, 212, 191, 0.7);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(45, 212, 191, 0.12);
+}
+
+.sliceSlider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  height: clamp(300px, 50vh, 520px);
+  background: rgba(10, 22, 18, 0.75);
+  border: 1px solid rgba(45, 212, 191, 0.25);
+  border-radius: 14px;
+  padding: 24px 16px;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6), inset 0 0 1px rgba(45, 212, 191, 0.4);
+}
+
+.sliceLabel {
+  font-family: "Fragment Mono", monospace;
+  font-size: clamp(11px, 1.25vw, 13px);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(236, 253, 245, 0.8);
+}
+
+/* Make range input chunky and prominent */
+.sliceSlider input[type=range] {
+  flex: 1;
+  width: 24px;
+  cursor: grab;
+}
+
+.sliceSlider input[type=range]:active {
+  cursor: grabbing;
+}
+
+@media (max-width: 980px) {
+  .sliceControls {
+    right: 16px;
+    bottom: 16px;
+    gap: 12px;
+  }
+
+  .sliceSlider {
+    height: 240px;
+    padding: 16px 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  .sliceSlider {
+    height: 160px;
+  }
+
+  .sliceToggle {
+    font-size: 10px;
+    padding: 8px 12px;
+  }
+}

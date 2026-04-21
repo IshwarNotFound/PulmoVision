@@ -1,0 +1,46 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+.next
+.venv
+.claude
+yarn-debug.log*
+yarn-error.log*
+coverage
+*.tsbuildinfo
+pnpm-debug.log*
+*.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+reference.txt
+lerna-debug.log*
+
+# Next.js auto-generated
+next-env.d.ts
+
+# Model weights (use Git LFS or external hosting)
+*.h5
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+__pycache__
+*.pyc
+.pytest_cache
+.mypy_cache
+.ruff_cache
+.ipynb_checkpoints
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
