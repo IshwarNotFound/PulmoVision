@@ -1,4 +1,4 @@
-# PulmoVision Frontend
+# PulmoVision 
 
 PulmoVision is a Next.js App Router application for chest X-ray analysis with explainability overlays, 3D visualization, multi-model inference (including ensemble mode), and in-browser clinical PDF report export.
 
