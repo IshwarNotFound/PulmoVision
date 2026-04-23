@@ -27,7 +27,10 @@ const getFileExtension = (name: string) => {
 const isDicomUpload = (nextFile: File) => {
   const mime = nextFile.type.toLowerCase();
   const hasDicomExtension = DICOM_EXTENSIONS.includes(getFileExtension(nextFile.name));
-  return DICOM_MIME_TYPES.has(mime) || (mime === "application/octet-stream" && hasDicomExtension) || hasDicomExtension;
+  return DICOM_MIME_TYPES.has(mime) || 
+         (mime === "application/octet-stream" && hasDicomExtension) || 
+         (mime === "" && hasDicomExtension) || 
+         hasDicomExtension;
 };
 
 const isRasterUpload = (nextFile: File) => {

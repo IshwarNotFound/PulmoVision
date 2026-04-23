@@ -509,6 +509,8 @@
   padding: 26px;
   display: grid;
   gap: 14px;
+  background: rgba(18, 32, 26, 0.85); /* Darker background */
+  border: 1px solid rgba(239, 68, 68, 0.3); /* Red border for errors */
 }
 
 /* ── Desktop: tall image, controls scroll below ── */
@@ -595,4 +597,18 @@
   .mainGrid {
     grid-template-columns: 1fr;
   }
+}
+
+/* ── Utilities ── */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }

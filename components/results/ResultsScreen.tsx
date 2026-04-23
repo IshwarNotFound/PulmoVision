@@ -278,12 +278,13 @@ export const ResultsScreen = ({ result, imageSrc }: ResultsScreenProps) => {
     return Array.from(modes);
   }, [imageSrc, threeDUnavailable]);
 
-  // Clean up the report-done timer if the component unmounts mid-animation.
+  // Clean up the report-done timer and reset view state to allow 3D context cleanup.
   useEffect(() => {
     return () => {
       if (reportTimerRef.current !== null) {
         window.clearTimeout(reportTimerRef.current);
       }
+      setViewState((prev) => ({ ...prev, mode: "original" }));
     };
   }, []);
 
@@ -310,7 +311,7 @@ export const ResultsScreen = ({ result, imageSrc }: ResultsScreenProps) => {
     );
   }
 
-  if (!result.confidence_tolerance_ok || !confidenceSumStable) {
+  if (!confidenceSumStable) {
     return (
       <section className={styles.ambiguous}>
         <div className={`glass-card ${styles.ambiguousInner}`}>
@@ -671,13 +672,20 @@ export const ResultsScreen = ({ result, imageSrc }: ResultsScreenProps) => {
             <div className={styles.actionsRow}>
               <button
                 className="primary-button"
-                style={{ padding: '14px 24px', fontSize: '14px', letterSpacing: '0.06em', fontWeight: 700 }}
+                style={{ padding: '14px 24px', fontSize: '14px', letterSpacing: '0.06em', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
                 onClick={() => {
                   void onGenerateReport();
                 }}
                 disabled={reportExporting}
               >
-                {reportExporting ? "Generating PDF..." : "Generate Clinical Report PDF"}
+                {reportExporting ? (
+                  <>
+                    <span className={styles.spinner} aria-hidden="true" />
+                    Generating PDF...
+                  </>
+                ) : (
+                  "Generate Clinical Report PDF"
+                )}
               </button>
               <button
                 className="ghost-button"
