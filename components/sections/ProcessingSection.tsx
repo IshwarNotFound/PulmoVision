@@ -28,7 +28,8 @@ const ALL_TIPS = [
   "Validating opacity densities against trained pathological datasets..."
 ];
 
-const PHASE_ADVANCE_MS = 2500;
+const PHASE_MIN_MS = 1500;
+const PHASE_MAX_MS = 3500;
 const TIP_ADVANCE_MS = 4000;
 const MIN_PROCESSING_MS = 3_000;
 
@@ -103,14 +104,28 @@ export function ProcessingSection() {
 
   useEffect(() => {
     setPhaseIndex(0);
-    const phaseTimer = window.setInterval(() => {
-      setPhaseIndex((prev) => {
-        // Pause at "Mapping" (index 2) until the backend actually finishes
-        if (prev >= 2) return 2;
-        return prev + 1;
-      });
-    }, PHASE_ADVANCE_MS);
-    return () => window.clearInterval(phaseTimer);
+    let cancelled = false;
+    const timers: number[] = [];
+
+    const scheduleNext = (currentPhase: number) => {
+      // Pause at "Mapping" (index 2) until the backend actually finishes
+      if (currentPhase >= 2) return;
+      const delay = PHASE_MIN_MS + Math.random() * (PHASE_MAX_MS - PHASE_MIN_MS);
+      const id = window.setTimeout(() => {
+        if (cancelled) return;
+        const next = currentPhase + 1;
+        setPhaseIndex(next);
+        scheduleNext(next);
+      }, delay);
+      timers.push(id);
+    };
+
+    scheduleNext(0);
+
+    return () => {
+      cancelled = true;
+      timers.forEach((id) => window.clearTimeout(id));
+    };
   }, [retryNonce]);
 
   useEffect(() => {
